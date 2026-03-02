@@ -17,11 +17,42 @@
     }
 
     * { box-sizing: border-box; -webkit-font-smoothing: antialiased; user-select: none; }
+    
+    /* 모바일 접속 차단 스타일 */
+    #mobile-block {
+      position: fixed; inset: 0; background: #000; color: #fff;
+      display: none; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 100000; font-size: 20px; font-weight: 800; text-align: center; line-height: 1.6;
+    }
+    @media (max-width: 1024px) {
+      #mobile-block { display: flex; }
+      body { overflow: hidden; }
+    }
+
     body {
       margin: 0; font-family: "Pretendard Variable", sans-serif;
       background: var(--bg); color: var(--text);
       display: flex; flex-direction: column; height: 100vh; overflow: hidden; transition: 0.3s;
+      position: relative;
     }
+
+    /* 백그라운드 반투명 로고 설정 */
+    body::before {
+      content: "EXIT POLICE"; /* 이미지 대신 텍스트 로고 사용 (이미지 사용 시 아래 주석 참고) */
+      /* content: ""; background-image: url('이미지주소'); background-size: contain; background-repeat: no-repeat; */
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg); /* 살짝 기울여서 간지나게 */
+      font-size: 12vw; /* 화면 크기에 맞게 자동 조절 */
+      font-weight: 900;
+      color: var(--text);
+      opacity: 0.03; /* 아주 은은하게 (0.03 ~ 0.05 추천) */
+      pointer-events: none; /* 클릭 방해 금지 */
+      z-index: 0;
+      white-space: nowrap;
+    }
+
+    header, .main-container { position: relative; z-index: 1; } /* 로고보다 위에 오도록 설정 */
 
     header {
       padding: 15px 40px; border-bottom: 1px solid var(--border);
@@ -36,7 +67,7 @@
 
     .left-section {
       display: flex; flex-direction: column; padding: 25px 40px; border-right: 1px solid var(--border);
-      overflow: hidden; background: var(--bg);
+      overflow: hidden; background: transparent; /* 로고가 보이도록 투명화 */
     }
     .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
     .tab {
@@ -60,7 +91,7 @@
     .item-card .name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
     .item-card .price { font-size: 13px; color: var(--muted); }
 
-    .right-section { background: var(--panel); padding: 30px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+    .right-section { background: rgba(20, 20, 27, 0.8); backdrop-filter: blur(5px); padding: 30px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
     .res-card { background: var(--card); border: 1px solid var(--border); padding: 24px; border-radius: 16px; transition: 0.3s; }
     .res-label { font-size: 12px; color: var(--accent); font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
     .res-val { font-size: 32px; font-weight: 900; line-height: 1; }
@@ -90,10 +121,19 @@
     .modal-qty input { width: 120px; height: 55px; background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 12px; font-size: 24px; font-weight: 900; text-align: center; outline: none; }
     .modal-qty .btn { height: 55px; flex: 1; border-radius: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; margin: 0; }
 
-    .modal-guide { background: var(--panel); border: 2px solid var(--accent); padding: 40px; border-radius: 30px; width: 850px; text-align: center; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,0.7); }
-    .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; justify-content: center; align-items: start; max-width: 100%; }
-    .guide-opt { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: 20px; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; gap: 10px; text-align: center; justify-content: center; align-items: center; width: 100%; max-width: 380px; margin: 0 auto; }
-    .guide-opt:hover { border-color: var(--accent); background: rgba(139, 92, 246, 0.15); transform: translateY(-4px); }
+    .modal-guide { 
+      background: var(--panel); border: 2px solid var(--accent); padding: 40px; border-radius: 30px; 
+      width: 90%; max-width: 1100px; text-align: center; max-height: 80vh; overflow-y: auto; 
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7); 
+    }
+    .guide-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
+    .guide-opt { 
+      background: var(--card); border: 1px solid var(--border); padding: 20px 30px; border-radius: 16px; 
+      cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; gap: 8px; text-align: left; 
+    }
+    .guide-opt:hover { border-color: var(--accent); background: rgba(139, 92, 246, 0.15); transform: translateX(5px); }
+    .guide-opt .title { font-weight: 800; color: var(--accent); font-size: 17px; }
+    .guide-opt .desc { font-size: 14px; color: var(--muted); line-height: 1.5; white-space: pre-wrap; }
 
     .modal-reason { background: var(--panel); border: 1px solid var(--accent); padding: 35px; border-radius: 24px; width: 420px; text-align: center; }
     .modal-reason h2 { margin: 0; font-size: 18px; color: var(--accent); margin-bottom: 5px; }
@@ -109,13 +149,11 @@
     .bail-input-group { padding:0 5px; }
     .bail-input-group label { font-size:12px; color:var(--muted); font-weight:700; display:block; margin-bottom:8px; text-transform:uppercase; }
     .bail-input-group input { width:100%; background:var(--card); border:1px solid var(--border); padding:12px; border-radius:10px; color:var(--text); font-size:18px; font-weight:700; outline:none; }
-    
-    .id-field { padding: 0 5px; margin-bottom: 10px; }
-    .id-field label { font-size: 12px; color: var(--muted); font-weight: 700; display: block; margin-bottom: 8px; text-transform: uppercase; }
-    .id-field input { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text); font-size: 15px; outline: none; }
   </style>
 </head>
 <body>
+
+  <div id="mobile-block">PC에서만 볼 수 있습니다.</div>
 
   <div id="qtyModal" class="overlay">
     <div class="modal-qty">
@@ -163,10 +201,6 @@
     </section>
 
     <aside class="right-section">
-      <div class="id-field">
-        <label>Discord Name</label>
-        <input type="text" id="userName" placeholder="닉네임을 입력하세요">
-      </div>
       <div class="res-card">
         <div class="res-label">최종 벌금 합계</div>
         <div class="res-val" id="resFine">0원</div>
@@ -177,7 +211,7 @@
         <div class="res-val" id="resTime">0분</div>
       </div>
       <div class="bail-input-group">
-        <label>보석금 감면 (분당 500만)</label>
+        <label>보석금 감면 (분당 300만)</label>
         <input type="number" id="bailIn" value="0" onfocus="this.select()">
       </div>
       <div class="calc-list" id="calcRows"></div>
@@ -191,6 +225,7 @@
   <div id="toast">복사되었습니다!</div>
 
 <script>
+  /* 데이터 및 로직은 이전과 동일 */
   const DATA = {
     "도로교통법": [
       { name:"소음공해", fine: 10000000, time: 0 }, { name:"불법 주정차", fine: 10000000, time: 0 },
@@ -225,41 +260,37 @@
       { name:"헬기 이륙 공지", opts: [{ label: "이륙 공지", val: "/경찰청 경찰청 헬기 00사유로 이륙합니다. - 엑시트 경찰청 -" }] }
     ],
     "EXIT 경찰청 RP관련 사이드 공지": [
-      { name:"편의점", opts: [{ label: "편의점 강도 공지", val: "/경찰청 현 시간부로 편의점 강도 발생하여 대응 중입니다. 인근 시민분들은 대피해 주시기 바랍니다. - 엑시트 경찰청 -" }] },
-      { name:"ATM", opts: [{ label: "ATM 절도 공지", val: "/경찰청 현 시간부로 ATM 기기 절도 사건이 발생했습니다. 인근 지역 검문이 있을 수 있으니 협조 바랍니다. - 엑시트 경찰청 -" }] },
-      { name:"클럽", opts: [{ label: "클럽 소란/강도 공지", val: "/경찰청 현 시간부로 클럽 내부에 사건이 발생하여 진입 통제합니다. 00시까지 인근 접근을 금합니다. - 엑시트 경찰청 -" }] },
-      { name:"보석상", opts: [{ label: "보석상 강도 공지", val: "/경찰청 [긴급] 보석상 강도가 발생하여 인근 도로를 차단합니다. 0명 이상의 무장 인원이 확인되었으니 주의 바랍니다. - 엑시트 경찰청 -" }] },
-      { name:"남부은행", opts: [{ label: "남부은행 강도 공지", val: "/경찰청 현재 남부은행 강도 사건으로 인해 은행 일대 RP가 진행 중입니다. 우회로를 이용해 주십시오. - 엑시트 경찰청 -" }] },
-      { name:"빈집털이", opts: [{ label: "빈집털이 단속 공지", val: "/경찰청 최근 빈집털이 신고가 급증하고 있습니다. 수상한 인원을 발견하면 즉시 신고 바랍니다. - 엑시트 경찰청 -" }] },
-      { 
-        name:"중북부 진입", 
-        opts: [
-          { label: "도주자 진입", val: "/경찰청 도주자 중북부 진입으로 보안국 관할 진입합니다. 국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" },
-          { label: "수배자 진입", val: "/경찰청 수배자 중북부 진입으로 보안국 관할 진입합니다. 국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" },
-          { label: "남부 복귀", val: "/경찰청 중북부 상황 종료로 경찰 관할로 복귀합니다." }
-        ] 
-      },
-      { 
-        name:"비상령", 
-        opts: [
-          { label: "비상령 발령", val: "/경찰청 경찰청에서 안내드립니다. 00 발령합니다, 00 비상령 발령으로 00 동안 남부는 경찰청 안내사항 채널에 나와있는것과 동일하게 치안유지가 될 것이며 이외 안내는 안내사항 채널 확인바랍니다." },
-          { label: "비상령 변경", val: "/경찰청 00에서 00로 변경합니다." },
-          { label: "비상령 해제", val: "/경찰청 00 해제합니다." }
-        ] 
-      }
+      { name:"편의점", opts: [
+        { label: "편의점 1", val: "/경찰청 [ 남부 편의점 1 ]\n편의점 1에서 강도 발생으로 편의점 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" },
+        { label: "편의점 2", val: "/경찰청 [ 남부 편의점 2 ]\n편의점 2에서 강도 발생으로 편의점 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" },
+        { label: "편의점 3", val: "/경찰청 [ 남부 편의점 3 ]\n편의점 3에서 강도 발생으로 편의점 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" }
+      ]},
+      { name:"ATM", opts: [
+        { label: "ATM 1", val: "/경찰청 [ 남부 ATM 1 ]\n남부 ATM 1에서 강도 발생으로 ATM 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" },
+        { label: "ATM 2", val: "/경찰청 [ 남부 ATM 2 ]\n남부 ATM 2에서 강도 발생으로 ATM 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" }
+      ]},
+      { name:"클럽", opts: [{ label: "클럽 공지", val: "/경찰청 [ 클럽 ]\n클럽 에서 강도 발생으로 클럽 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" }] },
+      { name:"보석상", opts: [{ label: "보석상 공지", val: "/경찰청 [ 보석상 ]\n보석상 에서 강도 발생으로 보석상 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" }] },
+      { name:"남부은행", opts: [{ label: "남부은행 공지", val: "/경찰청 [ 남부은행 ]\n남부은행 에서 강도 발생으로 남부은행 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" }] },
+      { name:"빈집털이", opts: [{ label: "빈집털이 공지", val: "/경찰청 [ 빈집털이 ]\n남부 빈집털이 에서 강도 발생으로 남부 빈집털이 위치로 부터 2블럭 이내 접근시 공범으로 간주하여 경고 없이 사살합니다.\n국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" }] },
+      { name:"무력진압", opts: [{ label: "무력진압 시작", val: "[ 무력진압 ] (RP이름) 경# 무력진압 시작합니다." }] },
+      { name:"중북부 진입", opts: [
+        { label: "도주자 진입", val: "/경찰청 도주자 중북부 진입으로 보안국 관할 진입합니다. 국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" },
+        { label: "수배자 진입", val: "/경찰청 수배자 중북부 진입으로 보안국 관할 진입합니다. 국민이 공감하는 공존의 정의, 민생에 힘이 되는 법무행정 - 엑시트 경찰청" },
+        { label: "남부 복귀", val: "/경찰청 중북부 상황 종료로 경찰 관할로 복귀합니다." }
+      ]},
+      { name:"비상령", opts: [
+        { label: "비상령 발령", val: "/경찰청 경찰청에서 안내드립니다. (비상령단계) 발령합니다, (사유) 비상령 발령으로 (기간) 동안 남부는 경찰청 안내사항 채널에 나와있는것과 동일하게 치안유지가 될 것이며 이외 안내는 안내사항 채널 확인바랍니다." },
+        { label: "비상령 해제", val: "/경찰청 (비상령단계) 해제합니다." },
+        { label: "비상령 변경", val: "/경찰청 (비상령단계)에서 (비상령단계)로 변경합니다." }
+      ]}
     ]
   };
 
   let activeTab = "도로교통법";
   let curKey = null;
   const state = new Map();
-
-  let noticeFlow = {
-    originalText: "",
-    placeholders: [],
-    currentIndex: 0,
-    results: []
-  };
+  let noticeFlow = { originalText: "", placeholders: [], currentIndex: 0, results: [] };
 
   function setTheme(t) {
     document.body.setAttribute('data-theme', t);
@@ -306,23 +337,17 @@
       const div = document.createElement("div");
       div.className = "guide-opt";
       div.onclick = () => startNoticeFlow(opt.val);
-      div.innerHTML = `<div class="title">${opt.label}</div><div class="desc">${opt.val.replace(/\n/g, '<br>')}</div>`;
+      div.innerHTML = `<div class="title">${opt.label}</div><div class="desc">${opt.val}</div>`;
       btnContainer.appendChild(div);
     });
     document.getElementById("guideModal").style.display = "flex";
   }
 
   function startNoticeFlow(val) {
-    const regex = /00|OOO|O시|O분|0명|약0시간/g;
+    const regex = /00|OOO|O시|O분|0명|약0시간|\([^\)]+\)/g;
     const matches = val.match(regex);
-
     if (matches) {
-      noticeFlow = {
-        originalText: val,
-        placeholders: matches,
-        currentIndex: 0,
-        results: []
-      };
+      noticeFlow = { originalText: val, placeholders: matches, currentIndex: 0, results: [] };
       showVariableModal();
     } else {
       copyText(val);
@@ -335,7 +360,6 @@
     document.getElementById("varTargetText").textContent = `대상: ${placeholders[currentIndex]}`;
     document.getElementById("reasonInput").value = "";
     document.getElementById("varBtn").textContent = (currentIndex === placeholders.length - 1) ? "완료 및 복사" : "다음";
-    
     document.getElementById("reasonModal").style.display = "flex";
     setTimeout(() => document.getElementById("reasonInput").focus(), 50);
   }
@@ -344,7 +368,6 @@
     const input = document.getElementById("reasonInput").value.trim();
     const currentPlaceholder = noticeFlow.placeholders[noticeFlow.currentIndex];
     noticeFlow.results.push(input === "" ? currentPlaceholder : input);
-
     if (noticeFlow.currentIndex < noticeFlow.placeholders.length - 1) {
       noticeFlow.currentIndex++;
       showVariableModal();
@@ -355,7 +378,7 @@
 
   function finishNoticeFlow() {
     let finalVal = noticeFlow.originalText;
-    const regex = /00|OOO|O시|O분|0명|약0시간/g;
+    const regex = /00|OOO|O시|O분|0명|약0시간|\([^\)]+\)/g;
     let i = 0;
     finalVal = finalVal.replace(regex, () => noticeFlow.results[i++]);
     copyText(finalVal);
@@ -408,32 +431,20 @@
         rows += `<div class="calc-item"><span>• ${s.item.name} x${s.qty}</span><span>${(s.item.fine*s.qty/10000).toLocaleString()}만</span></div>`;
       }
     });
-
     const b = parseInt(document.getElementById("bailIn").value)||0;
     const reducedT = Math.min(b, baseT);
-    const extraF = reducedT * 5000000;
-    
-    if (b > 0) {
-      rows = `<div class="calc-item bail"><span>[보석금 감면] -${reducedT}분</span><span>+${(extraF/10000).toLocaleString()}만</span></div>` + rows;
-    }
-
+    const extraF = reducedT * 3000000;
+    if (b > 0) rows = `<div class="calc-item bail"><span>[보석금 감면] -${reducedT}분</span><span>+${(extraF/10000).toLocaleString()}만</span></div>` + rows;
     const finalT = Math.max(0, baseT - b);
     const finalF = baseF + extraF;
-    
     document.getElementById("resFine").textContent = finalF.toLocaleString() + "원";
     document.getElementById("resFineKo").textContent = (finalF/10000).toLocaleString() + " 만원";
     document.getElementById("resTime").textContent = finalT + "분";
     document.getElementById("calcRows").innerHTML = rows;
-
     const tCard = document.getElementById("timeCard");
     const tLabel = document.getElementById("timeLabel");
-    if(finalT > 120) {
-      tCard.classList.add("warning");
-      tLabel.textContent = "최종 구금 시간 (초과!)";
-    } else {
-      tCard.classList.remove("warning");
-      tLabel.textContent = "최종 구금 시간";
-    }
+    if(finalT > 120) { tCard.classList.add("warning"); tLabel.textContent = "최종 구금 시간 (초과!)"; }
+    else { tCard.classList.remove("warning"); tLabel.textContent = "최종 구금 시간"; }
   }
 
   function renderTabs() {
@@ -452,8 +463,7 @@
   }
 
   function copyFinal() {
-    const user = document.getElementById("userName").value || "미입력";
-    let txt = `[엑시트 법률 산정 내역]\n작성자: ${user}\n\n`;
+    let txt = `[엑시트 법률 산정 내역]\n\n`;
     let baseT = 0;
     state.forEach(s => { 
       if(s.checked) {
@@ -461,16 +471,13 @@
         baseT += s.item.time * s.qty;
       }
     });
-
     const b = parseInt(document.getElementById("bailIn").value)||0;
     if (b > 0) {
       const reducedT = Math.min(b, baseT);
-      const extraF = reducedT * 5000000;
+      const extraF = reducedT * 3000000;
       txt += `\n[보석금 감면 내역]\n- 감면 시간: ${reducedT}분\n- 추가 보석금: ${extraF.toLocaleString()}원\n`;
     }
-
     txt += `\n최종 벌금 합계: ${document.getElementById("resFine").textContent}\n최종 구금 시간: ${document.getElementById("resTime").textContent}`;
-    
     const el = document.createElement('textarea'); el.value = txt; document.body.appendChild(el);
     el.select(); document.execCommand('copy'); document.body.removeChild(el);
     showT("전체 내역이 복사되었습니다!");
