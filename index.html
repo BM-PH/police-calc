@@ -6,7 +6,6 @@
   <title>엑시트 경찰청 법률계산기</title>
   <style>
     :root {
-      /* 블랙(다크) 모드로 고정 */
       --bg: #09090b; --panel: #14141b; --card: #1c1c28; --accent: #8b5cf6;
       --accent-glow: rgba(139, 92, 246, 0.4); --text: #f4f4f5; --muted: #a1a1aa;
       --border: rgba(255, 255, 255, 0.1); --danger: #ef4444; --success: #22c55e;
@@ -27,30 +26,21 @@
       position: relative;
     }
 
-    /* --- 백그라운드 퍼플 로고 밝기 수정 --- */
     body::before {
       content: "EXIT POLICE";
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%) rotate(-15deg);
       font-size: 12vw; font-weight: 900;
-      
-      /* 그라데이션 색상을 더 밝게 변경 */
       background: linear-gradient(135deg, #8b5cf6 0%, #c4b5fd 50%, #8b5cf6 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      
-      /* 움직이는 애니메이션 추가 (간지용) */
       animation: shine 10s linear infinite;
-      
-      opacity: 0.05; /* 밝아진 만큼 투명도를 살짝 조절 (너무 튀지 않게) */
+      opacity: 0.05;
       pointer-events: none; z-index: 0; white-space: nowrap;
     }
 
-    /* 백그라운드 로고 애니메이션 정의 */
-    @keyframes shine {
-      to { background-position: 200% center; }
-    }
+    @keyframes shine { to { background-position: 200% center; } }
 
     header, .main-container { position: relative; z-index: 1; }
     header {
@@ -134,8 +124,9 @@
     #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 14px 28px; border-radius: 50px; font-size: 15px; font-weight: 800; visibility: hidden; opacity: 0; transition: 0.3s; z-index: 10000; }
     #toast.show { visibility: visible; opacity: 1; bottom: 60px; }
 
-    .bail-input-group label { font-size: 12px; color: var(--muted); font-weight: 700; display: block; margin-bottom: 8px; text-transform: uppercase; }
-    .bail-input-group input { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text); font-size: 18px; font-weight: 700; outline: none; }
+    .input-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .input-row label { font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .input-row input { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text); font-size: 18px; font-weight: 700; outline: none; }
   </style>
 </head>
 <body>
@@ -190,11 +181,11 @@
         <div class="res-val" id="resFine">0원</div>
         <div class="res-ko" id="resFineKo">영 원</div>
       </div>
-      <div class="res-card" id="timeCard">
-        <div class="res-label" id="timeLabel">최종 구금 시간</div>
+      <div class="res-card">
+        <div class="res-label">최종 구금 시간</div>
         <div class="res-val" id="resTime">0분</div>
       </div>
-      <div class="bail-input-group">
+      <div class="input-row">
         <label>보석금 감면 (분당 300만)</label>
         <input type="number" id="bailIn" value="0" onfocus="this.select()">
       </div>
@@ -209,7 +200,6 @@
   <div id="toast">복사되었습니다!</div>
 
 <script>
-  // 모든 데이터 및 기능 유지
   const DATA = {
     "도로교통법": [
       { name:"소음공해", fine: 10000000, time: 0 }, { name:"불법 주정차", fine: 10000000, time: 0 },
@@ -217,16 +207,21 @@
       { name:"불법 유턴", fine: 10000000, time: 0 }, { name:"역주행/차선위반", fine: 10000000, time: 0 },
       { name:"인도 주행", fine: 10000000, time: 0 }, { name:"공공기물 파손", fine: 15000000, time: 0 },
       { name:"스턴트", fine: 20000000, time: 0 }, { name:"차량파손", fine: 50000000, time: 10 },
+      { name:"난폭운전", fine: 50000000, time: 15 }, { name:"항공기 저공비행", fine: 100000000, time: 20 },
+      { name:"보복운전", fine: 70000000, time: 15 },
       { name:"뺑소니", fine: 100000000, time: 20 }, { name:"폭주(350km↑)", fine: 50000000, time: 20 },
       { name:"무허가 비행", fine: 150000000, time: 30 }
     ],
     "중범죄": [
       { name:"난폭운전(3회)", fine: 50000000, time: 20 }, { name:"명예훼손", fine: 20000000, time: 10 },
       { name:"폭행", fine: 70000000, time: 10 }, { name:"불법물 소지", fine: 80000000, time: 20 },
+      { name:"불법무기(불법물건) 언급", fine: 50000000, time: 10 },
       { name:"총기 소지", fine: 150000000, time: 20 }, { name:"증거 인멸", fine: 120000000, time: 20 },
       { name:"차량 절도", fine: 100000000, time: 20 }, { name:"시민 살인", fine: 200000000, time: 30 }
     ],
     "공무원법": [
+      { name:"공무원 차량 절도 시도", fine: 150000000, time: 20 }, { name:"공무원 차량 파손", fine: 120000000, time: 15 },
+      { name:"공무원 사칭", fine: 200000000, time: 20 },
       { name:"경찰차 절도", fine: 250000000, time: 20 }, { name:"경찰 명예훼손", fine: 200000000, time: 10 },
       { name:"공무집행 방해", fine: 150000000, time: 30 }, { name:"무단 침입", fine: 200000000, time: 30 },
       { name:"공무원 폭행", fine: 250000000, time: 20 }, { name:"공무원 살인", fine: 400000000, time: 40 }
@@ -377,8 +372,10 @@
 
   function renderTabs() { const $t = document.getElementById("tabs"); $t.innerHTML = ""; Object.keys(DATA).forEach(c => { const btn = document.createElement("button"); btn.className = `tab ${c===activeTab?'active':''}`; btn.textContent = c; btn.onclick = () => { activeTab = c; renderTabs(); renderList(); }; $t.appendChild(btn); }); }
   function resetAll() { state.forEach(s => { s.checked = false; s.qty = 0; }); document.getElementById("bailIn").value = 0; renderList(); update(); showT("초기화 되었습니다!"); }
+  
   function copyFinal() {
-    let txt = `[엑시트 법률 산정 내역]\n\n`; let baseT = 0;
+    let txt = `[엑시트 법률 산정 내역]\n\n`;
+    let baseT = 0;
     state.forEach(s => { if(s.checked) { txt += `- ${s.item.name} x${s.qty} (${(s.item.fine*s.qty).toLocaleString()}원)\n`; baseT += s.item.time * s.qty; } });
     const b = parseInt(document.getElementById("bailIn").value)||0;
     if (b > 0) { const reducedT = Math.min(b, baseT); const extraF = reducedT * 3000000; txt += `\n[보석금 감면]\n- 감면 시간: ${reducedT}분\n- 추가 보석금: ${extraF.toLocaleString()}원\n`; }
