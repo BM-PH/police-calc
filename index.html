@@ -176,6 +176,10 @@
     </section>
 
     <aside class="right-section">
+      <div class="input-row">
+        <label>Discord Name</label>
+        <input type="text" id="discordName" placeholder="디스코드 닉네임 입력">
+      </div>
       <div class="res-card">
         <div class="res-label">최종 벌금 합계</div>
         <div class="res-val" id="resFine">0원</div>
@@ -202,29 +206,44 @@
 <script>
   const DATA = {
     "도로교통법": [
-      { name:"소음공해", fine: 10000000, time: 0 }, { name:"불법 주정차", fine: 10000000, time: 0 },
-      { name:"속도 위반", fine: 10000000, time: 0 }, { name:"신호 위반", fine: 10000000, time: 0 },
-      { name:"불법 유턴", fine: 10000000, time: 0 }, { name:"역주행/차선위반", fine: 10000000, time: 0 },
-      { name:"인도 주행", fine: 10000000, time: 0 }, { name:"공공기물 파손", fine: 15000000, time: 0 },
-      { name:"스턴트", fine: 20000000, time: 0 }, { name:"차량파손", fine: 50000000, time: 10 },
-      { name:"난폭운전", fine: 50000000, time: 15 }, { name:"항공기 저공비행", fine: 100000000, time: 20 },
-      { name:"보복운전", fine: 70000000, time: 15 },
-      { name:"뺑소니", fine: 100000000, time: 20 }, { name:"폭주(350km↑)", fine: 50000000, time: 20 },
-      { name:"무허가 비행", fine: 150000000, time: 30 }
+      { name:"속도위반(일반)", fine: 10000000, time: 0, note: "120km 초과" },
+      { name:"속도위반(고속)", fine: 20000000, time: 0, note: "220km 초과" },
+      { name:"신호 위반", fine: 10000000, time: 0 },
+      { name:"소음공해", fine: 10000000, time: 0 },
+      { name:"불법 주정차", fine: 10000000, time: 0 },
+      { name:"불법 유턴", fine: 10000000, time: 0 },
+      { name:"역주행/차선위반", fine: 10000000, time: 0 },
+      { name:"인도주행및침범", fine: 10000000, time: 0 },
+      { name:"공공 기물파손", fine: 15000000, time: 0 },
+      { name:"스턴트", fine: 20000000, time: 0, note: "바퀴 2개 이상 뜰 시" },
+      { name:"차량파손", fine: 50000000, time: 0 },
+      { name:"뺑소니", fine: 100000000, time: 20, note: "합의 시 처벌 불가" },
+      { name:"난폭운전", fine: 50000000, time: 20, note: "3개 이상 위반 시" },
+      { name:"폭주", fine: 50000000, time: 20, note: "350km 이상" },
+      { name:"항공기 저공비행", fine: 300000000, time: 40, note: "메이즈타워 기준" },
+      { name:"보복운전", fine: 100000000, time: 20 },
+      { name:"무허가 항공기 운행", fine: 150000000, time: 30 }
     ],
     "중범죄": [
-      { name:"난폭운전(3회)", fine: 50000000, time: 20 }, { name:"명예훼손", fine: 20000000, time: 10 },
-      { name:"폭행", fine: 70000000, time: 10 }, { name:"불법물 소지", fine: 80000000, time: 20 },
-      { name:"불법무기(불법물건) 언급", fine: 50000000, time: 10 },
-      { name:"총기 소지", fine: 150000000, time: 20 }, { name:"증거 인멸", fine: 120000000, time: 20 },
-      { name:"차량 절도", fine: 100000000, time: 20 }, { name:"시민 살인", fine: 200000000, time: 30 }
+      { name:"명예훼손", fine: 20000000, time: 10 },
+      { name:"폭행", fine: 70000000, time: 10 },
+      { name:"불법 물건 소지", fine: 80000000, time: 20 },
+      { name:"불법 무기 소지", fine: 150000000, time: 20 },
+      { name:"불법 무기/물건 언급", fine: 100000000, time: 20, note: "은어 미사용 시" },
+      { name:"증거 인멸", fine: 120000000, time: 20 },
+      { name:"차량절도", fine: 100000000, time: 20 },
+      { name:"시민 살인", fine: 200000000, time: 30 }
     ],
     "공무원법": [
-      { name:"공무원 차량 절도 시도", fine: 150000000, time: 20 }, { name:"공무원 차량 파손", fine: 120000000, time: 15 },
-      { name:"공무원 사칭", fine: 200000000, time: 20 },
-      { name:"경찰차 절도", fine: 250000000, time: 20 }, { name:"경찰 명예훼손", fine: 200000000, time: 10 },
-      { name:"공무집행 방해", fine: 150000000, time: 30 }, { name:"무단 침입", fine: 200000000, time: 30 },
-      { name:"공무원 폭행", fine: 250000000, time: 20 }, { name:"공무원 살인", fine: 400000000, time: 40 }
+      { name:"공무원 차량 절도 시도", fine: 100000000, time: 0 },
+      { name:"공무원 명예 훼손", fine: 200000000, time: 10 },
+      { name:"공무원 차량 절도", fine: 250000000, time: 20 },
+      { name:"공무원 차량 파손", fine: 100000000, time: 10 },
+      { name:"공무원 사칭", fine: 50000000, time: 10 },
+      { name:"공무 집행 방해", fine: 150000000, time: 30, note: "허위신고/불이행" },
+      { name:"국유지 사유지 무단침입", fine: 200000000, time: 30 },
+      { name:"공무원 폭행", fine: 250000000, time: 20 },
+      { name:"공무원 살인", fine: 400000000, time: 40 }
     ],
     "스토리RP": [
       { name:"즉흥/수배RP", fine: 250000000, time: 30 }, { name:"영장RP", fine: 400000000, time: 30 },
@@ -288,13 +307,11 @@
       const s = state.get(key);
       const div = document.createElement("div");
       div.className = `item-card ${s.checked?'selected':''}`;
-      div.innerHTML = `<div class="name">${item.name}</div><div class="price">${(activeTab.includes('공지'))?'공지 열기':(item.fine/10000).toLocaleString()+'만 / '+item.time+'분'}</div>`;
-      div.onclick = () => { if(activeTab.includes('공지')) openGuide(item); else if(activeTab==='스토리RP') toggleStoryItem(key); else openQty(activeTab, item); };
+      div.innerHTML = `<div class="name">${item.name}</div><div class="price">${(activeTab.includes('공지'))?'공지 열기':(item.fine/10000).toLocaleString()+'만 / '+item.time+'분'}</div>${item.note ? `<div style="font-size:11px; color:var(--accent); margin-top:4px;">${item.note}</div>` : ''}`;
+      div.onclick = () => { if(activeTab.includes('공지')) openGuide(item); else openQty(activeTab, item); };
       $l.appendChild(div);
     });
   }
-
-  function toggleStoryItem(key) { const s = state.get(key); if(s.checked) { s.checked = false; s.qty = 0; } else { s.checked = true; s.qty = 1; } renderList(); update(); }
 
   function openGuide(item) {
     document.getElementById("gTitle").textContent = item.name;
@@ -371,10 +388,12 @@
   }
 
   function renderTabs() { const $t = document.getElementById("tabs"); $t.innerHTML = ""; Object.keys(DATA).forEach(c => { const btn = document.createElement("button"); btn.className = `tab ${c===activeTab?'active':''}`; btn.textContent = c; btn.onclick = () => { activeTab = c; renderTabs(); renderList(); }; $t.appendChild(btn); }); }
-  function resetAll() { state.forEach(s => { s.checked = false; s.qty = 0; }); document.getElementById("bailIn").value = 0; renderList(); update(); showT("초기화 되었습니다!"); }
+  function resetAll() { state.forEach(s => { s.checked = false; s.qty = 0; }); document.getElementById("bailIn").value = 0; document.getElementById("discordName").value = ""; renderList(); update(); showT("초기화 되었습니다!"); }
   
   function copyFinal() {
-    let txt = `[엑시트 법률 산정 내역]\n\n`;
+    const dName = document.getElementById("discordName").value || "미입력";
+    let txt = `[엑시트 법률 산정 내역]\n`;
+    txt += `Discord Name: ${dName}\n\n`;
     let baseT = 0;
     state.forEach(s => { if(s.checked) { txt += `- ${s.item.name} x${s.qty} (${(s.item.fine*s.qty).toLocaleString()}원)\n`; baseT += s.item.time * s.qty; } });
     const b = parseInt(document.getElementById("bailIn").value)||0;
