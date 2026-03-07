@@ -10,128 +10,103 @@
       --accent-glow: rgba(139, 92, 246, 0.4); --text: #f4f4f5; --muted: #a1a1aa;
       --border: rgba(255, 255, 255, 0.1); --danger: #ef4444; --success: #22c55e;
     }
-
     * { box-sizing: border-box; -webkit-font-smoothing: antialiased; user-select: none; }
-    #mobile-block {
-      position: fixed; inset: 0; background: #000; color: #fff;
-      display: none; flex-direction: column; justify-content: center; align-items: center;
-      z-index: 100000; font-size: 20px; font-weight: 800; text-align: center; line-height: 1.6;
-    }
+    #mobile-block { position: fixed; inset: 0; background: #000; color: #fff; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100000; font-size: 20px; font-weight: 800; text-align: center; line-height: 1.6; }
     @media (max-width: 1024px) { #mobile-block { display: flex; } body { overflow: hidden; } }
-
-    body {
-      margin: 0; font-family: "Pretendard Variable", sans-serif;
-      background: var(--bg); color: var(--text);
-      display: flex; flex-direction: column; height: 100vh; overflow: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: "EXIT POLICE";
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) rotate(-15deg);
-      font-size: 12vw; font-weight: 900;
-      background: linear-gradient(135deg, #8b5cf6 0%, #c4b5fd 50%, #8b5cf6 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shine 10s linear infinite;
-      opacity: 0.05;
-      pointer-events: none; z-index: 0; white-space: nowrap;
-    }
-
+    body { margin: 0; font-family: "Pretendard Variable", sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; position: relative; }
+    body::before { content: "EXIT POLICE"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg); font-size: 12vw; font-weight: 900; background: linear-gradient(135deg, #8b5cf6 0%, #c4b5fd 50%, #8b5cf6 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 10s linear infinite; opacity: 0.05; pointer-events: none; z-index: 0; white-space: nowrap; }
     @keyframes shine { to { background-position: 200% center; } }
-
     header, .main-container { position: relative; z-index: 1; }
-    header {
-      padding: 15px 40px; border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.05);
-    }
+    header { padding: 15px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.05); }
     .logo-group h1 { margin: 0; font-size: 22px; font-weight: 900; cursor: default; }
-
-    .main-container {
-      flex: 1; display: grid; grid-template-columns: 1fr 420px;
-      gap: 0; overflow: hidden;
-    }
-
-    .left-section {
-      display: flex; flex-direction: column; padding: 25px 40px; border-right: 1px solid var(--border);
-      overflow: hidden; background: transparent;
-    }
+    .main-container { flex: 1; display: grid; grid-template-columns: 1fr 420px; gap: 0; overflow: hidden; }
+    .left-section { display: flex; flex-direction: column; padding: 25px 40px; border-right: 1px solid var(--border); overflow: hidden; background: transparent; }
     .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
-    .tab {
-      padding: 12px 22px; border-radius: 12px; border: 1px solid var(--border);
-      background: var(--panel); color: var(--muted); cursor: pointer;
-      font-size: 15px; font-weight: 700; transition: 0.2s; white-space: nowrap;
-    }
+    .tab { padding: 12px 22px; border-radius: 12px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); cursor: pointer; font-size: 15px; font-weight: 700; transition: 0.2s; white-space: nowrap; }
     .tab.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-    .item-grid {
-      flex: 1; overflow-y: auto; display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 15px; padding: 10px 5px; align-content: start;
-    }
-
-    .item-card {
-      background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-      padding: 18px; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s; 
-    }
+    .item-grid { flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 15px; padding: 10px 5px; align-content: start; }
+    .item-card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 18px; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s; }
     .item-card:hover { border-color: var(--accent); transform: translateY(-4px); background: var(--card); }
     .item-card.selected { border-color: var(--accent); background: rgba(139, 92, 246, 0.08); box-shadow: 0 4px 15px var(--accent-glow); }
     .item-card .name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
     .item-card .price { font-size: 13px; color: var(--muted); }
-
     .right-section { background: rgba(20, 20, 27, 0.8); backdrop-filter: blur(5px); padding: 30px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
-    .res-card { background: var(--card); border: 1px solid var(--border); padding: 24px; border-radius: 16px; }
+    .res-card { background: var(--card); border: 1px solid var(--border); padding: 24px; border-radius: 16px; transition: 0.3s; }
+    .res-card.warning { border-color: var(--danger); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); animation: pulse-red 1.5s infinite; }
+    @keyframes pulse-red { 0% { border-color: var(--danger); } 50% { border-color: #7f1d1d; } 100% { border-color: var(--danger); } }
     .res-label { font-size: 12px; color: var(--accent); font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .warning .res-label { color: var(--danger); }
     .res-val { font-size: 32px; font-weight: 900; line-height: 1; }
     .res-ko { font-size: 15px; color: var(--muted); margin-top: 8px; font-weight: 600; }
-
+    .time-warning-text { color: var(--danger); font-size: 13px; font-weight: 800; margin-top: 8px; display: none; }
+    .warning .time-warning-text { display: block; }
     .calc-list { flex: 1; border-top: 1px solid var(--border); padding-top: 15px; font-size: 14px; line-height: 1.8; overflow-y: auto; }
     .calc-item { display: flex; justify-content: space-between; margin-bottom: 4px; }
     .calc-item.bail { color: var(--success); font-weight: 700; border-bottom: 1px dashed var(--border); padding-bottom: 5px; margin-bottom: 8px; }
-
     .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: auto; padding-top: 15px; }
     .btn { padding: 15px; border-radius: 12px; font-size: 16px; font-weight: 800; border: none; cursor: pointer; transition: 0.2s; }
     .btn-copy { background: var(--accent); color: white; }
     .btn-reset { background: transparent; border: 1px solid var(--border); color: var(--muted); }
     .btn-reset:hover { background: var(--danger); color: white; border-color: var(--danger); }
-
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 9999; }
     .modal-qty { background: var(--panel); border: 2px solid var(--accent); padding: 30px; border-radius: 24px; width: 440px; text-align: left; }
     .modal-qty h2 { font-size: 20px !important; margin: 0 0 20px 0; color: var(--text); font-weight: 800; border-left: 4px solid var(--accent); padding-left: 12px; }
     .qty-controls { display: flex; gap: 12px; align-items: center; }
     .modal-qty input { width: 120px; height: 55px; background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 12px; font-size: 24px; font-weight: 900; text-align: center; outline: none; }
     .modal-qty .btn { height: 55px; flex: 1; border-radius: 12px; font-size: 16px; display: flex; align-items: center; justify-content: center; margin: 0; }
-
-    .modal-guide { 
-      background: var(--panel); border: 2px solid var(--accent); padding: 40px; border-radius: 30px; 
-      width: 90%; max-width: 1100px; text-align: center; max-height: 80vh; overflow-y: auto; 
-    }
+    .modal-guide { background: var(--panel); border: 2px solid var(--accent); padding: 40px; border-radius: 30px; width: 90%; max-width: 1100px; text-align: center; max-height: 80vh; overflow-y: auto; }
     .guide-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
-    .guide-opt { 
-      background: var(--card); border: 1px solid var(--border); padding: 20px 30px; border-radius: 16px; 
-      cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; gap: 8px; text-align: left; 
-    }
+    .guide-opt { background: var(--card); border: 1px solid var(--border); padding: 20px 30px; border-radius: 16px; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; gap: 8px; text-align: left; }
     .guide-opt:hover { border-color: var(--accent); background: rgba(139, 92, 246, 0.15); }
     .guide-opt .title { font-weight: 800; color: var(--accent); font-size: 17px; }
     .guide-opt .desc { font-size: 14px; color: var(--muted); line-height: 1.5; white-space: pre-wrap; }
-
     .modal-reason { background: var(--panel); border: 1px solid var(--accent); padding: 35px; border-radius: 24px; width: 420px; text-align: center; }
     .modal-reason h2 { margin: 0; font-size: 18px; color: var(--accent); margin-bottom: 5px; }
     .modal-reason p { margin: 0 0 15px 0; font-size: 14px; color: var(--muted); }
     .modal-reason input { width: 100%; height: 55px; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0 15px; border-radius: 12px; font-size: 18px; margin-bottom: 20px; outline: none; text-align: center; }
-
     #toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; padding: 14px 28px; border-radius: 50px; font-size: 15px; font-weight: 800; visibility: hidden; opacity: 0; transition: 0.3s; z-index: 10000; }
     #toast.show { visibility: visible; opacity: 1; bottom: 60px; }
-
     .input-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
     .input-row label { font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
     .input-row input { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text); font-size: 18px; font-weight: 700; outline: none; }
+    #infoModal .modal-reason { width: 500px; padding: 40px; }
+    .info-inputs { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+    .info-inputs .row { display: flex; gap: 10px; }
+    .info-inputs .field { flex: 1; text-align: left; }
+    .info-inputs label { font-size: 11px; color: var(--muted); font-weight: 800; margin-bottom: 6px; display: block; padding-left: 5px; }
+    .info-inputs input { width: 100%; height: 50px; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0 15px; border-radius: 10px; font-size: 16px; outline: none; transition: 0.2s; text-align: left; }
+    .info-inputs input:focus { border-color: var(--accent); }
   </style>
 </head>
 <body>
 
   <div id="mobile-block">PC에서만 볼 수 있습니다.</div>
+
+  <div id="infoModal" class="overlay">
+    <div class="modal-reason">
+      <h2 style="margin-bottom: 25px; font-size: 20px; font-weight: 900;">피의자 정보 입력</h2>
+      <div class="info-inputs">
+        <div class="row">
+          <div class="field">
+            <label>범죄자 고유번호</label>
+            <input type="text" id="modalId" placeholder="고유번호" onkeydown="if(event.key==='Enter') document.getElementById('modalName').focus()">
+          </div>
+          <div class="field">
+            <label>범죄자 닉네임</label>
+            <input type="text" id="modalName" placeholder="닉네임" onkeydown="if(event.key==='Enter') document.getElementById('modalEtc').focus()">
+          </div>
+        </div>
+        <div class="field">
+          <label>기타 사항</label>
+          <input type="text" id="modalEtc" placeholder="특이사항 및 비고 입력" onkeydown="if(event.key==='Enter') executeCopy()">
+        </div>
+      </div>
+      <div style="display:flex; gap:12px;">
+        <button class="btn btn-copy" style="flex:1" onclick="executeCopy()">내역 복사하기</button>
+        <button class="btn btn-reset" style="flex:1" onclick="closeInfoModal()">취소</button>
+      </div>
+    </div>
+  </div>
 
   <div id="qtyModal" class="overlay">
     <div class="modal-qty">
@@ -176,18 +151,15 @@
     </section>
 
     <aside class="right-section">
-      <div class="input-row">
-        <label>Discord Name</label>
-        <input type="text" id="discordName" placeholder="디스코드 닉네임 입력">
-      </div>
       <div class="res-card">
         <div class="res-label">최종 벌금 합계</div>
         <div class="res-val" id="resFine">0원</div>
-        <div class="res-ko" id="resFineKo">영 원</div>
+        <div class="res-ko" id="resFineKo">0 원</div>
       </div>
-      <div class="res-card">
+      <div class="res-card" id="timeCard">
         <div class="res-label">최종 구금 시간</div>
         <div class="res-val" id="resTime">0분</div>
+        <div class="time-warning-text" id="timeWarningMsg">⚠️ 구금 시간이 120분을 초과했습니다!</div>
       </div>
       <div class="input-row">
         <label>보석금 감면 (분당 300만)</label>
@@ -195,7 +167,7 @@
       </div>
       <div class="calc-list" id="calcRows"></div>
       <div class="btn-group">
-        <button class="btn btn-copy" onclick="copyFinal()">전체 내역 복사</button>
+        <button class="btn btn-copy" onclick="openInfoModal()">전체 내역 복사</button>
         <button class="btn btn-reset" onclick="resetAll()">모든 항목 초기화</button>
       </div>
     </aside>
@@ -204,6 +176,28 @@
   <div id="toast">복사되었습니다!</div>
 
 <script>
+  function numberToKoDetailed(num) {
+    if (num === 0) return "0";
+    const units = ["", "십", "백", "천"];
+    const bigUnits = ["", "만", "억", "조"];
+    const nums = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let result = "";
+    let strNum = num.toString();
+    for (let i = 0; i < strNum.length; i++) {
+        let n = strNum[strNum.length - 1 - i];
+        let level = i % 4;
+        let bigLevel = Math.floor(i / 4);
+        if (n !== "0") {
+            let chunk = nums[parseInt(n)] + units[level];
+            if (level === 0 && bigLevel > 0) chunk += bigUnits[bigLevel];
+            result = chunk + " " + result;
+        } else if (level === 0 && bigLevel > 0 && strNum.slice(Math.max(0, strNum.length - i - 4), strNum.length - i).search(/[1-9]/) > -1) {
+            result = bigUnits[bigLevel] + " " + result;
+        }
+    }
+    return result.trim();
+  }
+
   const DATA = {
     "도로교통법": [
       { name:"속도위반(일반)", fine: 10000000, time: 0, note: "120km 초과" },
@@ -375,7 +369,52 @@
     else { document.getElementById("mTitle").textContent = item.name; document.getElementById("qtyModal").style.display = "flex"; document.getElementById("mInput").value = 1; setTimeout(() => { document.getElementById("mInput").focus(); document.getElementById("mInput").select(); }, 50); }
   }
 
-  function confirmQty() { const v = parseInt(document.getElementById("mInput").value); if(v > 0) { const s = state.get(curKey); s.checked = true; s.qty = v; } closeModal(); renderList(); update(); }
+  // [수정된 함수] 난폭운전 체크 기능 추가
+function checkRecklessDriving() {
+  const recklessKey = "도로교통법::난폭운전";
+  const recklessItem = state.get(recklessKey);
+
+  // 1. 이미 난폭운전이 선택되어 있다면 로직 종료
+  if (recklessItem && recklessItem.checked) return;
+
+  let count = 0;
+  // 2. 난폭운전 제외하고 체크된 항목 개수 합산
+  state.forEach((val, key) => {
+    if (key.startsWith("도로교통법") && val.checked && key !== recklessKey) {
+      count += val.qty;
+    }
+  });
+
+  // 3. 3개 이상일 경우 처리
+  if (count >= 3) {
+    state.forEach((val, key) => {
+      if (key.startsWith("도로교통법") && key !== recklessKey) {
+        val.checked = false;
+        val.qty = 0;
+      }
+    });
+
+    if (recklessItem) {
+      recklessItem.checked = true;
+      recklessItem.qty = 1;
+    }
+    showT("도로교통법을 3개 이상 위반해서 난폭운전으로 변경되었습니다.");
+  }
+}
+
+  function confirmQty() { 
+    const v = parseInt(document.getElementById("mInput").value); 
+    if(v > 0) { 
+        const s = state.get(curKey); 
+        s.checked = true; 
+        s.qty = v; 
+    } 
+    checkRecklessDriving(); // 로직 적용
+    closeModal(); 
+    renderList(); 
+    update(); 
+  }
+  
   function removeIdx() { const s = state.get(curKey); s.checked = false; s.qty = 0; closeModal(); renderList(); update(); }
 
   function update() {
@@ -384,25 +423,75 @@
     const b = parseInt(document.getElementById("bailIn").value)||0; const reducedT = Math.min(b, baseT); const extraF = reducedT * 3000000;
     if (b > 0) rows = `<div class="calc-item bail"><span>[보석금 감면] -${reducedT}분</span><span>+${(extraF/10000).toLocaleString()}만</span></div>` + rows;
     const finalT = Math.max(0, baseT - b); const finalF = baseF + extraF;
-    document.getElementById("resFine").textContent = finalF.toLocaleString() + "원"; document.getElementById("resFineKo").textContent = (finalF/10000).toLocaleString() + " 만원"; document.getElementById("resTime").textContent = finalT + "분"; document.getElementById("calcRows").innerHTML = rows;
+    
+    document.getElementById("resFine").textContent = finalF.toLocaleString() + "원"; 
+    document.getElementById("resFineKo").textContent = numberToKoDetailed(finalF) + " 원"; 
+    document.getElementById("resTime").textContent = finalT + "분"; document.getElementById("calcRows").innerHTML = rows;
+
+    const timeCard = document.getElementById("timeCard");
+    if (finalT > 120) {
+      timeCard.classList.add("warning");
+    } else {
+      timeCard.classList.remove("warning");
+    }
   }
 
   function renderTabs() { const $t = document.getElementById("tabs"); $t.innerHTML = ""; Object.keys(DATA).forEach(c => { const btn = document.createElement("button"); btn.className = `tab ${c===activeTab?'active':''}`; btn.textContent = c; btn.onclick = () => { activeTab = c; renderTabs(); renderList(); }; $t.appendChild(btn); }); }
-  function resetAll() { state.forEach(s => { s.checked = false; s.qty = 0; }); document.getElementById("bailIn").value = 0; document.getElementById("discordName").value = ""; renderList(); update(); showT("초기화 되었습니다!"); }
   
-  function copyFinal() {
-    const dName = document.getElementById("discordName").value || "미입력";
-    let txt = `[엑시트 법률 산정 내역]\n`;
-    txt += `Discord Name: ${dName}\n\n`;
-    let baseT = 0;
-    state.forEach(s => { if(s.checked) { txt += `- ${s.item.name} x${s.qty} (${(s.item.fine*s.qty).toLocaleString()}원)\n`; baseT += s.item.time * s.qty; } });
-    const b = parseInt(document.getElementById("bailIn").value)||0;
-    if (b > 0) { const reducedT = Math.min(b, baseT); const extraF = reducedT * 3000000; txt += `\n[보석금 감면]\n- 감면 시간: ${reducedT}분\n- 추가 보석금: ${extraF.toLocaleString()}원\n`; }
-    txt += `\n최종 벌금: ${document.getElementById("resFine").textContent}\n최종 시간: ${document.getElementById("resTime").textContent}`;
-    const el = document.createElement('textarea'); el.value = txt; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showT("복사되었습니다!");
+  function resetAll() { 
+    state.forEach(s => { s.checked = false; s.qty = 0; }); 
+    document.getElementById("bailIn").value = 0; 
+    renderList(); update(); showT("초기화 되었습니다!"); 
   }
 
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  function openInfoModal() {
+    document.getElementById("modalId").value = "";
+    document.getElementById("modalName").value = "";
+    document.getElementById("modalEtc").value = "";
+    document.getElementById("infoModal").style.display = "flex";
+    setTimeout(() => document.getElementById("modalId").focus(), 50);
+  }
+  function closeInfoModal() { document.getElementById("infoModal").style.display = "none"; }
+
+  function executeCopy() {
+    const cId = document.getElementById("modalId").value || "미입력";
+    const cName = document.getElementById("modalName").value || "미입력";
+    const cEtc = document.getElementById("modalEtc").value || "없음";
+    
+    let txt = `[엑시트 법률 산정 내역]\n`;
+    txt += `${cId} / ${cName} / ${cEtc}\n\n`;
+    
+    let baseT = 0;
+    let baseF = 0;
+    state.forEach(s => { if(s.checked) { 
+        const cost = s.item.fine * s.qty;
+        txt += `- ${s.item.name} x${s.qty} : ${cost.toLocaleString()}원 (${numberToKoDetailed(cost)} 원)\n`; 
+        baseT += s.item.time * s.qty;
+        baseF += cost;
+    } });
+    
+    const b = parseInt(document.getElementById("bailIn").value)||0;
+    let totalF = baseF;
+    let finalT = baseT;
+    if (b > 0) { 
+        const reducedT = Math.min(b, baseT); 
+        const extraF = reducedT * 3000000; 
+        totalF += extraF;
+        txt += `\n[보석금 감면]\n- 감면 시간: ${reducedT}분\n- 추가 보석금: ${extraF.toLocaleString()}원 (${numberToKoDetailed(extraF)} 원)\n`; 
+        finalT -= reducedT;
+    }
+    
+    txt += `\n━━━━━━━━━━━━━━━━━━━━\n최종 벌금: ${totalF.toLocaleString()}원\n상세 요약: ${numberToKoDetailed(totalF)} 원\n최종 시간: ${Math.max(0, finalT)}분`;
+    
+    if (finalT > 120) {
+      txt += `\n(⚠️ 구금 시간 120분 초과)`;
+    }
+    
+    copyText(txt);
+    closeInfoModal();
+  }
+
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); closeInfoModal(); } });
   document.getElementById("bailIn").oninput = update;
   renderTabs(); renderList();
 </script>
